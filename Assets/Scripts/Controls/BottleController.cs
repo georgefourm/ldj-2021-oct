@@ -13,6 +13,13 @@ public class BottleController : MonoBehaviour
 
     public float movementSpeed = 10f;
 
+    private Rigidbody rigidbody;
+
+    private void Start()
+    {
+        rigidbody = GetComponent<Rigidbody>();
+    }
+
     private void Update()
     {
         if (!dragging)
@@ -38,9 +45,8 @@ public class BottleController : MonoBehaviour
 
         screenSpace = Camera.main.WorldToScreenPoint(transform.position);
 
-        var rigidbody = GetComponent<Rigidbody>();
-
         rigidbody.angularVelocity = Vector3.zero;
+        rigidbody.velocity = Vector3.zero;
 
         offset = transform.position - Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenSpace.z));
     }
@@ -56,7 +62,6 @@ public class BottleController : MonoBehaviour
     {
         dragging = false;
 
-        var rigidbody = GetComponent<Rigidbody>();
         rigidbody.AddForce(Vector3.down * 50f);
     }
 }
