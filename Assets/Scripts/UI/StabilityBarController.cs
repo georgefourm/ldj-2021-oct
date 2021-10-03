@@ -33,4 +33,14 @@ public class StabilityBarController : MonoBehaviour
         innerBar.fillAmount = stability;
         this.stability = stability;
     }
+
+    public void IncreaseStability(float amount)
+    {
+        SetStability(Mathf.Clamp01(stability + amount));
+    }
+
+    public void DecreaseStability(float amount)
+    {
+        SetStability(Mathf.Clamp01(stability - amount));
+    }
 }

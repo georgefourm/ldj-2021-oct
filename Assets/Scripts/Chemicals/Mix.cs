@@ -3,42 +3,49 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[Serializable]
 public class Mix
 {
     public float totalAmount;
 
-    public float color;
+    public float Color { get; private set; }
 
-    public float smoke;
+    public float Smoke { get; private set; }
 
-    public float wobble;
+    public float Wobble { get; private set; }
 
-    public float RetrieveProperty(ChemicalProperty property)
+
+    public float GetStability()
+    {
+        return 0.5f * Wobble + 0.3f * Smoke + 0.2f * Color;
+    }
+
+    public float GetProperty(ChemicalProperty property)
     {
         switch (property)
         {
             case ChemicalProperty.Color:
-                return color;
+                return Color;
             case ChemicalProperty.Smoke:
-                return smoke;
+                return Smoke;
             case ChemicalProperty.Wobble:
-                return wobble;
+                return Wobble;
         }
         throw new NotImplementedException("Not implemented property requested: " + property);
     }
 
-    public void ChangeProperty(ChemicalProperty property, float propertyValue)
+    public void SetPropery(ChemicalProperty property, float propertyValue)
     {
         switch (property)
         {
             case ChemicalProperty.Color:
-                color = propertyValue;
+                Color = Mathf.Clamp01(propertyValue);
                 break;
             case ChemicalProperty.Smoke:
-                smoke = propertyValue;
+                Smoke = Mathf.Clamp01(propertyValue);
                 break;
             case ChemicalProperty.Wobble:
-                wobble = propertyValue;
+                Wobble = Mathf.Clamp01(propertyValue);
                 break;
         }
     }

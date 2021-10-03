@@ -6,16 +6,16 @@ using UnityEngine;
 public class TransferRule : Rule
 {
     [Range(0,1)]
-    public float TransferPercentage;
+    public float TransferAmount;
 
     public ChemicalProperty SourceProperty, TargetProperty;
 
     public override void apply(Mix mix)
     {
-        float currValue = mix.RetrieveProperty(SourceProperty);
-        float percentage = currValue * (TransferPercentage / 100);
+        var sourceValue = mix.GetProperty(SourceProperty);
+        var transferredAmount = Mathf.Min(sourceValue,TransferAmount);
 
-        mix.ChangeProperty(SourceProperty,Mathf.Max(0,currValue-percentage));
-        mix.ChangeProperty(TargetProperty, Mathf.Min(1, currValue + percentage));
+        mix.SetPropery(SourceProperty,sourceValue - transferredAmount);
+        mix.SetPropery(TargetProperty,mix.GetProperty(TargetProperty) + transferredAmount);
     }
 }

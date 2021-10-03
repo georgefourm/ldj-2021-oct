@@ -4,15 +4,20 @@ using UnityEngine;
 
 public class UIController : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public static UIController Instance { get; private set; }
+
+    public StabilityBarController bar;
+
+    private void Awake()
     {
-        
+        if(Instance == null)
+        {
+            Instance = this;
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Start()
     {
-        
+        bar = GetComponentInChildren<StabilityBarController>();
     }
 }

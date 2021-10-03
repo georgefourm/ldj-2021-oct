@@ -8,7 +8,7 @@ public class ConditionalRule : Rule
     public ChemicalProperty ConditionProperty;
 
     [Range(0, 1)]
-    public float ConditionPercentage;
+    public float ConditionAmount;
 
     public bool ShouldExceed = false;
 
@@ -16,8 +16,8 @@ public class ConditionalRule : Rule
 
     public override void apply(Mix mix)
     {
-        float currValue = mix.RetrieveProperty(ConditionProperty);
-        bool isExceeding = currValue > ConditionPercentage;
+        float currValue = mix.GetProperty(ConditionProperty);
+        bool isExceeding = currValue > ConditionAmount;
         if (!(ShouldExceed ^ isExceeding))
         {
             TrueConditionRule.apply(mix);

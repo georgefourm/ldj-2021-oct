@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: AddColor
   m_EditorClassIdentifier: 
   AffectedProperty: 0
-  ModifyPercentage: 0.346
+  Amount: 0.2
   Remove: 0

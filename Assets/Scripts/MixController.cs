@@ -4,15 +4,20 @@ using UnityEngine;
 
 public class MixController : MonoBehaviour
 {
-    // Start is called before the first frame update
+    public Mix mix;
+
     void Start()
     {
-        
+        mix = new Mix();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void AddChemical(ChemicalComponent chemical)
     {
-        
+        foreach (var rule in chemical.rules)
+        {
+            rule.apply(mix);
+        }
+        mix.totalAmount += chemical.amount;
+        UIController.Instance.bar.SetStability(mix.GetStability());
     }
 }

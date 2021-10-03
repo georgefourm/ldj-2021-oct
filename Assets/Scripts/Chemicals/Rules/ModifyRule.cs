@@ -8,21 +8,19 @@ public class ModifyRule : Rule
     public ChemicalProperty AffectedProperty;
 
     [Range(0, 1)]
-    public float ModifyPercentage;
+    public float Amount;
 
     public bool Remove = false;
 
     public override void apply(Mix mix)
     {
-        float currValue = mix.RetrieveProperty(AffectedProperty);
-        float percentage = currValue * (ModifyPercentage / 100);
         if (Remove)
         {
-            mix.ChangeProperty(AffectedProperty, currValue - percentage);
+            mix.SetPropery(AffectedProperty, mix.GetProperty(AffectedProperty) - Amount);
         }
         else
         {
-            mix.ChangeProperty(AffectedProperty, currValue + percentage);
+            mix.SetPropery(AffectedProperty, mix.GetProperty(AffectedProperty) + Amount);
         }
     }
 }

@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: DropWobble
   m_EditorClassIdentifier: 
   AffectedProperty: 2
-  ModifyPercentage: 0.174
+  Amount: 0.1
   Remove: 1
