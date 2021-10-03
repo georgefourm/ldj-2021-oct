@@ -6,6 +6,8 @@ public class MixController : MonoBehaviour
 {
     public Mix mix;
 
+    public float PourRate = 0.05f;
+
     void Start()
     {
         mix = new Mix();
@@ -17,7 +19,7 @@ public class MixController : MonoBehaviour
         {
             rule.apply(mix);
         }
-        mix.Amount = Mathf.Clamp01(mix.Amount + chemical.amount);
+        mix.Amount = Mathf.Clamp01(mix.Amount + PourRate);
         UIController.Instance.bar.SetStability(mix.GetStability());
     }
 }

@@ -26,13 +26,11 @@ public class BeakerController : MonoBehaviour
     {
         mesh = Fluid.GetComponent<MeshRenderer>();
         mixController = GetComponent<MixController>();
-        wobbleController = GetComponent<WobbleController>();
+        wobbleController = GetComponentInChildren<WobbleController>();
     }
 
     private void Update()
     {
-        if (Input.GetKey(KeyCode.K)) { Debug.Log('q'); SetWobble(0.7f); }
-
         var currentScale = Fluid.localScale.z;
 
         if (targetLevel != currentScale)
@@ -74,6 +72,8 @@ public class BeakerController : MonoBehaviour
     {
         mixController.mix = new Mix();
         Fluid.localScale += Vector3.forward * (0.1f - Fluid.localScale.z);
+        targetLevel = 0.1f;
+        UpdateProperties();
     }
 
     private void SetAmount(float amount)
@@ -101,5 +101,6 @@ public class BeakerController : MonoBehaviour
         SetAmount(mixController.mix.Amount);
         SetSmokiness(mixController.mix.Smoke);
         SetColor(mixController.mix.Color);
+        SetWobble(mixController.mix.Wobble);
     }
 }

@@ -7,9 +7,6 @@ public class WobbleController : MonoBehaviour
 
     float timeCounter;
 
-
-    float initXRotation = -90;
-
     Vector3 initPos;
 
     public float smoothness = 10;
@@ -48,17 +45,6 @@ public class WobbleController : MonoBehaviour
         );
 
         transform.position = initPos + t;
-        
-        /*
-        transform.Rotate(t * 10);
-        Debug.Log(t * 10);*/
-       // var wtv = (timeCounter % 2) / 2;
-        //var rot = (coorba.Evaluate(wtv) - 0.5f) * woobleStrength;
-
-        //transform.position = initPos + rot * Vector3.right;
-        
-//        transform.rotation = Quaternion.Euler(initXRotation + rot, transform.rotation.y, transform.rotation.z);
-        //transform.Rotate(Vector3.right * (coorba.Evaluate(wtv) -0.5f) * 10);
     }
 
     public void SetWobbleLevel(WobbleLevel level)

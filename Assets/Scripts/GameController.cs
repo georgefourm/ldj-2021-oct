@@ -43,12 +43,12 @@ public class GameController : MonoBehaviour
 
     public void Win()
     {
-
+        ui.ActivateGameOver("Success", "Component Stabilized");
     }
 
     public void Lose()
     {
-
+        ui.ActivateGameOver("Failure", "Component Exploded");
     }
 
     public void Restart()
@@ -58,5 +58,7 @@ public class GameController : MonoBehaviour
             spawner.Respawn();
         }
         Beaker.Clear();
+        ui.DeactivateGameOver();
+        ui.bar.SetStability(0f);
     }
 }

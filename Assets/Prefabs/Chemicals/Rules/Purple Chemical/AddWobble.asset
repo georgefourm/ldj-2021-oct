@@ -9,9 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 689b058dbb7e48643b51aab6642cabdf, type: 3}
-  m_Name: Wobble2Smoke
+  m_Script: {fileID: 11500000, guid: c3f12fa79caedcf4fb7c34e08cfe51ee, type: 3}
+  m_Name: AddWobble
   m_EditorClassIdentifier: 
-  TransferAmount: 0.12
-  SourceProperty: 1
-  TargetProperty: 2
+  AffectedProperty: 2
+  Amount: 0.162
+  Remove: 0
