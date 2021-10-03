@@ -17,7 +17,7 @@ public class MixController : MonoBehaviour
         {
             rule.apply(mix);
         }
-        mix.totalAmount += chemical.amount;
+        mix.Amount = Mathf.Clamp01(mix.Amount + chemical.amount);
         UIController.Instance.bar.SetStability(mix.GetStability());
     }
 }

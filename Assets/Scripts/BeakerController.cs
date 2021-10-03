@@ -8,14 +8,35 @@ public class BeakerController : MonoBehaviour
 
     public Transform Fluid;
 
+    public Gradient colorScale;
+
+    public float GrowSpeed = 8;
+
+    public float MaxAmount = 19f;
+
     private MeshRenderer mesh;
 
-    private MixController mix;
+    private MixController mixController;
+
+    private float targetLevel = 0.1f;
 
     void Start()
     {
         mesh = Fluid.GetComponent<MeshRenderer>();
-        mix = GetComponent<MixController>();
+        mixController = GetComponent<MixController>();
+    }
+
+    private void Update()
+    {
+        var currentScale = Fluid.localScale.z;
+
+        if (targetLevel != currentScale)
+        {
+            int dir = targetLevel > currentScale ? 1 : -1;
+            currentScale += dir * GrowSpeed * Time.deltaTime;
+            var scale = Mathf.Clamp(currentScale, 0, dir == 1 ? targetLevel : currentScale);
+            Fluid.localScale += Vector3.forward * (scale - Fluid.localScale.z);
+        }
     }
 
     void SetSmokiness(float level)
@@ -25,25 +46,14 @@ public class BeakerController : MonoBehaviour
         emission.rateOverTime = level * 5;
     }
 
-    void SetLevel(float level)
+    void SetColor(float color)
     {
-        level = Mathf.Clamp(level, 0, 1);
-        Fluid.localScale += Vector3.forward * (level - Fluid.localScale.z);
+        mesh.material.color = colorScale.Evaluate(color);
     }
 
-    void SetColor(Color color)
+    private void SetAmount(float amount)
     {
-        mesh.material.color = color;
-    }
-
-    private void SetScale(float scale)
-    {
-        Fluid.localScale += Vector3.forward * (scale - GetCurrentScale());
-    }
-
-    private float GetCurrentScale()
-    {
-        return Fluid.localScale.z;
+        targetLevel = amount * MaxAmount;
     }
 
     private void OnTriggerStay(Collider other)
@@ -55,7 +65,15 @@ public class BeakerController : MonoBehaviour
         var bottle = other.GetComponentInParent<BottleController>();
         if (bottle.IsPouring())
         {
-            mix.AddChemical(bottle.chemical);
+            mixController.AddChemical(bottle.chemical);
+            UpdateProperties();
         }
+    }
+
+    private void UpdateProperties()
+    {
+        SetAmount(mixController.mix.Amount);
+        SetSmokiness(mixController.mix.Smoke);
+        SetColor(mixController.mix.Color);
     }
 }

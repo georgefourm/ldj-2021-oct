@@ -6,7 +6,7 @@ using UnityEngine;
 [Serializable]
 public class Mix
 {
-    public float totalAmount;
+    public float Amount { get; set; }
 
     public float Color { get; private set; }
 

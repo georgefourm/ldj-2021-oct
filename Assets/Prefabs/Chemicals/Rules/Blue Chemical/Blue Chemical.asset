@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 652dd56923ab9564da08f4ceeda56ee1, type: 3}
   m_Name: Blue Chemical
   m_EditorClassIdentifier: 
-  amount: 5
+  amount: 0.1
   rules:
   - {fileID: 11400000, guid: 3215ddab2967e984a8a2780e643f213a, type: 2}
   - {fileID: 11400000, guid: 2a201a2cc83e2f144beac7087b4015c6, type: 2}
