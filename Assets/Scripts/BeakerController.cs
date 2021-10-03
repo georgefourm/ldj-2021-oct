@@ -48,7 +48,17 @@ public class BeakerController : MonoBehaviour
 
     void SetColor(float color)
     {
-        mesh.material.color = colorScale.Evaluate(color);
+        var finalColor = colorScale.Evaluate(color);
+        var main = smoke.main;
+
+        main.startColor = finalColor;
+        mesh.material.color = finalColor; 
+    }
+
+    public void Clear()
+    {
+        mixController.mix = new Mix();
+        Fluid.localScale += Vector3.forward * (0.1f - Fluid.localScale.z);
     }
 
     private void SetAmount(float amount)
@@ -67,6 +77,7 @@ public class BeakerController : MonoBehaviour
         {
             mixController.AddChemical(bottle.chemical);
             UpdateProperties();
+            GameController.Instance.CheckWin(mixController.mix);
         }
     }
 

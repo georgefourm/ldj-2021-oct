@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 652dd56923ab9564da08f4ceeda56ee1, type: 3}
   m_Name: Purple Chemical
   m_EditorClassIdentifier: 
-  amount: 5
+  amount: 0.1
   rules:
   - {fileID: 11400000, guid: 744fe994b1fdbdd43a095a75957c3fa4, type: 2}
