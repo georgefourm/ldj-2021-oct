@@ -62,6 +62,11 @@ public class BottleController : MonoBehaviour
     {
         dragging = false;
 
-        rigidbody.AddForce(Vector3.down * 50f);
+        //rigidbody.AddForce(Vector3.down * 50f);
+    }
+
+    public bool IsPouring()
+    {
+        return Mathf.Abs(transform.rotation.eulerAngles.z) > 90;
     }
 }
