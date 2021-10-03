@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
+    [Range(0,1)]
     public float TargetStability = 0.7f;
 
+    [Range(0,1)]
     public float ErrorThreshold = 0.1f;
 
     public UIController ui;
@@ -15,6 +17,11 @@ public class GameController : MonoBehaviour
     public ChemicalSpawner[] Spawners;
 
     public BeakerController Beaker;
+
+    private void Start()
+    {
+        ui.bar.SetThreshold(TargetStability);
+    }
 
     private void Awake()
     {
@@ -43,11 +50,13 @@ public class GameController : MonoBehaviour
 
     public void Win()
     {
+        Beaker.GameRunning = false;
         ui.ActivateGameOver("Success", "Component Stabilized");
     }
 
     public void Lose()
     {
+        Beaker.GameRunning = false;
         ui.ActivateGameOver("Failure", "Component Exploded");
     }
 
@@ -60,5 +69,6 @@ public class GameController : MonoBehaviour
         Beaker.Clear();
         ui.DeactivateGameOver();
         ui.bar.SetStability(0f);
+        Beaker.GameRunning = true;
     }
 }

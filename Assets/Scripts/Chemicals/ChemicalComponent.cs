@@ -7,4 +7,5 @@ public class ChemicalComponent : ScriptableObject
     [SerializeField]
     public Rule[] rules;
 
+    public Material chemicalColor;
 }

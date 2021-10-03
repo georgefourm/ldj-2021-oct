@@ -14,6 +14,8 @@ public class BeakerController : MonoBehaviour
 
     public float MaxAmount = 19f;
 
+    public bool GameRunning = true;
+
     private MeshRenderer mesh;
 
     private MixController mixController;
@@ -83,7 +85,7 @@ public class BeakerController : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.tag != "Chemical")
+        if (other.tag != "Chemical" || !GameRunning)
         {
             return;
         }

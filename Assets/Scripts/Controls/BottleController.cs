@@ -14,7 +14,7 @@ public class BottleController : MonoBehaviour
 
     public Transform spout;
 
-    Vector3 screenSpace,offset;
+    Vector3 screenSpace;
 
     bool dragging = false;
 
@@ -23,6 +23,8 @@ public class BottleController : MonoBehaviour
     private Rigidbody rb;
 
     private Vector3 prevMousePosition;
+
+    public MeshRenderer FluidMesh;
 
     private void Start()
     {

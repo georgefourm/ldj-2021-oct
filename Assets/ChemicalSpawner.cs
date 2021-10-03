@@ -38,6 +38,7 @@ public class ChemicalSpawner : MonoBehaviour
         instance.transform.position = transform.position;
         var controller = instance.GetComponent<BottleController>();
         controller.chemical = component;
+        controller.FluidMesh.material = component.chemicalColor;
     }
 
 }

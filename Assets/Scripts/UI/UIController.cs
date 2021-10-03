@@ -20,7 +20,6 @@ public class UIController : MonoBehaviour
             Instance = this;
         }
     }
-
     private void Start()
     {
         bar = GetComponentInChildren<StabilityBarController>();
