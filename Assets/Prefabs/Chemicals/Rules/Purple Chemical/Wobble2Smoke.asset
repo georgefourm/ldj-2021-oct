@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 689b058dbb7e48643b51aab6642cabdf, type: 3}
   m_Name: Wobble2Smoke
   m_EditorClassIdentifier: 
-  TransferPercentage: 0.306
-  SourceProperty: 2
-  TargetProperty: 1
+  TransferAmount: 0.12
+  SourceProperty: 1
+  TargetProperty: 2

@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 652dd56923ab9564da08f4ceeda56ee1, type: 3}
   m_Name: Red Chemical
   m_EditorClassIdentifier: 
-  amount: 10
+  amount: 0.2
   rules:
   - {fileID: 11400000, guid: eb14aae6c0f4b4d4fbbf7b13b2b736f9, type: 2}
