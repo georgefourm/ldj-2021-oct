@@ -29,6 +29,7 @@ public class BeakerController : MonoBehaviour
         mesh = Fluid.GetComponent<MeshRenderer>();
         mixController = GetComponent<MixController>();
         wobbleController = GetComponentInChildren<WobbleController>();
+        UpdateProperties();
     }
 
     private void Update()

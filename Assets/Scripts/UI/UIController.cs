@@ -23,6 +23,7 @@ public class UIController : MonoBehaviour
     private void Start()
     {
         bar = GetComponentInChildren<StabilityBarController>();
+        bar.SetStability(0.0f);
     }
 
     public void ActivateGameOver(string text,string messageText)
