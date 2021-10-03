@@ -26,9 +26,14 @@ public class BottleController : MonoBehaviour
 
     public MeshRenderer FluidMesh;
 
+    private ParticleSystem ps;
+
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
+        ps = GetComponentInChildren<ParticleSystem>();
+        var main = ps.main;
+        main.startColor = FluidMesh.material.color;
     }
 
     private void Update()
@@ -60,6 +65,17 @@ public class BottleController : MonoBehaviour
             rb.velocity = Vector3.zero;
         }
         
+        if (isTilted())
+        {
+            if (!ps.gameObject.activeSelf)
+            {
+                ps.gameObject.SetActive(true);
+                ps.Play();
+            }
+        } else
+        {
+            ps.gameObject.SetActive(false);
+        }
     }
 
     private void OnMouseDown()
@@ -87,12 +103,16 @@ public class BottleController : MonoBehaviour
     public bool IsPouring()
     {
         pourTimer += Time.deltaTime;
-        var isTilted = transform.rotation.eulerAngles.z > 90 && transform.rotation.eulerAngles.z < 270;
-        if (pourTimer >= pourDelay && isTilted)
+        if (pourTimer >= pourDelay && isTilted())
         {
             pourTimer = 0;
             return true;
         }
         return false;
+    }
+
+    private bool isTilted()
+    {
+        return transform.rotation.eulerAngles.z > 90 && transform.rotation.eulerAngles.z < 270;
     }
 }
