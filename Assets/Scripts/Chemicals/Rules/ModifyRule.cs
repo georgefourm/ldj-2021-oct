@@ -23,4 +23,9 @@ public class ModifyRule : Rule
             mix.SetPropery(AffectedProperty, mix.GetProperty(AffectedProperty) + Amount);
         }
     }
+
+    public override string ToString()
+    {
+        return string.Format("Amount: {0} Remove: {1} Property: {2}", Amount, Remove, AffectedProperty);
+    }
 }

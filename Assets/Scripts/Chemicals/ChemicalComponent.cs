@@ -8,4 +8,6 @@ public class ChemicalComponent : ScriptableObject
     public Rule[] rules;
 
     public Material chemicalColor;
+    
+    public int color;
 }
