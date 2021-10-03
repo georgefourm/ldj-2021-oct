@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BottleController : MonoBehaviour
 {
-    public float rotationSpeed = 20f;
+    public float rotationSpeed = 200f;
 
     public float movementSpeed = 10f;
 
@@ -51,6 +51,13 @@ public class BottleController : MonoBehaviour
     private void FixedUpdate()
     {
         prevMousePosition = transform.position;
+
+        if (Input.GetMouseButton(0) && dragging)
+        {
+            rb.angularVelocity = Vector3.zero;
+            rb.velocity = Vector3.zero;
+        }
+        
     }
 
     private void OnMouseDown()
@@ -58,17 +65,12 @@ public class BottleController : MonoBehaviour
         dragging = true;
 
         screenSpace = Camera.main.WorldToScreenPoint(transform.position);
-
-        rb.angularVelocity = Vector3.zero;
-        rb.velocity = Vector3.zero;
-
-        offset = transform.position - Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenSpace.z));
     }
 
     private void OnMouseDrag()
     {
         var curScreenSpace = new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenSpace.z);
-        var curPosition = Camera.main.ScreenToWorldPoint(curScreenSpace) + offset;
+        var curPosition = Camera.main.ScreenToWorldPoint(curScreenSpace);
         transform.position = new Vector3(curPosition.x, curPosition.y, transform.position.z);
     }
 
