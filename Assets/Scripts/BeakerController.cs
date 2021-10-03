@@ -20,14 +20,19 @@ public class BeakerController : MonoBehaviour
 
     private float targetLevel = 0.1f;
 
+    private WobbleController wobbleController;
+
     void Start()
     {
         mesh = Fluid.GetComponent<MeshRenderer>();
         mixController = GetComponent<MixController>();
+        wobbleController = GetComponent<WobbleController>();
     }
 
     private void Update()
     {
+        if (Input.GetKey(KeyCode.K)) { Debug.Log('q'); SetWobble(0.7f); }
+
         var currentScale = Fluid.localScale.z;
 
         if (targetLevel != currentScale)
@@ -53,6 +58,16 @@ public class BeakerController : MonoBehaviour
 
         main.startColor = finalColor;
         mesh.material.color = finalColor; 
+    }
+
+    void SetWobble(float wobble)
+    {
+        var wobbleLvl = WobbleLevel.EXTREME;
+        if (wobble < 0.2) wobbleLvl = WobbleLevel.NO;
+        else if (wobble < .4) wobbleLvl = WobbleLevel.LOW;
+        else if (wobble < .6) wobbleLvl = WobbleLevel.MED;
+        else if (wobble < .8) wobbleLvl = WobbleLevel.HIGH;
+        wobbleController.SetWobbleLevel(wobbleLvl);
     }
 
     public void Clear()
