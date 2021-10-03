@@ -7,6 +7,7 @@ TagManager:
   - Wall
   - Kioupi
   - Chemical
+  - Beaker
   layers:
   - Default
   - TransparentFX

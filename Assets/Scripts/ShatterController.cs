@@ -38,8 +38,19 @@ public class ShatterController : MonoBehaviour
     public void OnCollisionEnter(Collision collision)
     {
         if (!shouldShatter || rb.velocity.magnitude < shatterThreshold) return;
+        Shatter();
+    }
+
+    public void Shatter(bool delete = true)
+    {
         whole.gameObject.SetActive(false);
         shattered.gameObject.SetActive(true);
-        shatteredAt = Time.time;
+        if (delete) shatteredAt = Time.time;
+    }
+
+    public void Unshatter()
+    {
+        whole.gameObject.SetActive(true);
+        shattered.gameObject.SetActive(false);
     }
 }

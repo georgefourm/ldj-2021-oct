@@ -56,6 +56,7 @@ public class GameController : MonoBehaviour
 
     public void Lose()
     {
+        Beaker.Shatter();
         Beaker.GameRunning = false;
         ui.ActivateGameOver("Failure", "Component Exploded");
     }

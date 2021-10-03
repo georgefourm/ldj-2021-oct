@@ -24,16 +24,20 @@ public class BeakerController : MonoBehaviour
 
     private WobbleController wobbleController;
 
+    private ShatterController shatterController;
+
     void Start()
     {
         mesh = Fluid.GetComponent<MeshRenderer>();
         mixController = GetComponent<MixController>();
         wobbleController = GetComponentInChildren<WobbleController>();
+        shatterController = GetComponentInChildren<ShatterController>();
         UpdateProperties();
     }
 
     private void Update()
     {
+        if (Fluid == null) return;
         var currentScale = Fluid.localScale.z;
 
         if (targetLevel != currentScale)
@@ -74,6 +78,7 @@ public class BeakerController : MonoBehaviour
     public void Clear()
     {
         mixController.mix = new Mix();
+        shatterController.Unshatter();
         Fluid.localScale += Vector3.forward * (0.1f - Fluid.localScale.z);
         targetLevel = 0.1f;
         UpdateProperties();
@@ -105,5 +110,10 @@ public class BeakerController : MonoBehaviour
         SetSmokiness(mixController.mix.Smoke);
         SetColor(mixController.mix.Color);
         SetWobble(mixController.mix.Wobble);
+    }
+
+    public void Shatter()
+    {
+        shatterController.Shatter(false);
     }
 }
