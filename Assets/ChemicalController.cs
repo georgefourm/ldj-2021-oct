@@ -12,9 +12,11 @@ public class ChemicalController : MonoBehaviour
 
     private MixController mixController;
 
-    public float fluidAmountLeft = 0.3f;
+    public float fluidTimeLeft = 3.0f;
 
-    public float fluidPourRate = 0.05f;
+    private float pourAfter;
+
+    public float fluidPourRate = 0.5f;
 
     private bool pouring = false;
 
@@ -26,6 +28,8 @@ public class ChemicalController : MonoBehaviour
         var main = Particles.main;
         main.startColor = material.color;
         Chemical = new Chemical(material.color);
+
+        pourAfter = fluidTimeLeft;
     }
 
     private bool isTilted()
@@ -38,11 +42,16 @@ public class ChemicalController : MonoBehaviour
     {
         if (pouring)
         {
-            if (isTilted() && fluidAmountLeft > 0)
+            if (isTilted() && fluidTimeLeft > 0)
             {
-                mixController.AddChemical(Chemical, fluidPourRate);
+                fluidTimeLeft -= Time.deltaTime;
+                if (fluidTimeLeft < pourAfter)
+                {
+                    pourAfter -= fluidPourRate;
+                    mixController.AddChemical(Chemical, fluidPourRate / 10);
+                }
             }
-            if (fluidAmountLeft <= 0)
+            if (fluidTimeLeft <= 0)
             {
                 Fluid.gameObject.SetActive(false);
             }
@@ -51,9 +60,8 @@ public class ChemicalController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (isTilted() && fluidAmountLeft > 0)
+        if (isTilted() && fluidTimeLeft > 0)
         {
-            fluidAmountLeft -= fluidPourRate;
             if (!Particles.gameObject.activeSelf)
             {
                 Particles.gameObject.SetActive(true);
