@@ -16,7 +16,7 @@ public class MixController : MonoBehaviour
 
     private BeakerController beaker;
 
-    private float reactionTimer = 0f;
+    private float reactionStart = 0f;
 
     private float pourTimer = 0f;
 
@@ -30,8 +30,8 @@ public class MixController : MonoBehaviour
     public void Clear()
     {
         mix = new Mix();
-        reactionTimer = 0;
         pourTimer = 0;
+        reactionStart = 0;
     }
 
     public void AddChemical(Chemical chemical)
@@ -56,7 +56,12 @@ public class MixController : MonoBehaviour
 
         var reaction = config.GetReaction(mix.Color, chemical.color);
 
-        if (reactionTimer < ReactionSecs)
+        if (reactionStart == 0)
+        {
+            reactionStart = Time.time;
+        }
+
+        if (Time.time - reactionStart < ReactionSecs)
         {
             switch (reaction.Property)
             {
@@ -70,12 +75,11 @@ public class MixController : MonoBehaviour
                     Debug.LogWarning("Invalid chemical property: " + reaction.Property);
                     break;
             }
-            reactionTimer += Time.deltaTime;
         }
         else
         {
             mix.Color = reaction.Result;
-            reactionTimer = 0;
+            reactionStart = Time.time;
         }
 
 
