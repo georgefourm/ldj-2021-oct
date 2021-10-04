@@ -6,30 +6,33 @@ public class MixController : MonoBehaviour
 {
     public Mix mix;
 
-    public float PourAmount = 0.05f;
-
     private GameConfig config;
 
     private BeakerController beaker;
+
+    public float changeColorTimer = 3.0f;
+
+    private float changeColorTimeLeft;
 
     void Start()
     {
         mix = new Mix();
         config = GameController.Instance.GetComponent<GameConfig>();
         beaker = GetComponent<BeakerController>();
+        changeColorTimeLeft = changeColorTimer;
     }
 
-    public void AddChemical(Chemical chemical)
+    public void AddChemical(Chemical chemical, float fluidPourRate)
     {
-        if (mix.Amount == 0 || chemical.color.Equals(mix.Color))
+        if (mix.Amount == 0)
         {
             mix.Color = chemical.color;
         }
-        else
+
+        if (mix.Color != chemical.color)
         {
             var reaction = config.GetReaction(mix.Color, chemical.color);
-            Debug.Log("Performing reaction: " + reaction);
-            mix.Color = reaction.Result;
+
             switch (reaction.Property)
             {
                 case ChemicalProperty.Smoke:
@@ -42,9 +45,15 @@ public class MixController : MonoBehaviour
                     Debug.LogWarning("Invalid chemical property: " + reaction.Property);
                     break;
             }
+
+            changeColorTimeLeft -= fluidPourRate;
+            if (changeColorTimeLeft < 0)
+            {
+                mix.Color = reaction.Result;
+            }
         }
 
-        mix.Amount += PourAmount;
+        mix.Amount += fluidPourRate;
         beaker.UpdateProperties();
 
         if (mix.IsStable())

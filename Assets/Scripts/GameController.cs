@@ -24,7 +24,7 @@ public class GameController : MonoBehaviour
     public float Score { get; private set; }
 
     [Range(0,0.5f)]
-    public float ScoreStep = 0.1f;
+    public float ScoreStep = 0.01f;
 
     private void Start()
     {

@@ -12,7 +12,11 @@ public class ChemicalController : MonoBehaviour
 
     private MixController mixController;
 
-    public bool IsDepleted { get; private set; }
+    public float fluidAmountLeft = 0.3f;
+
+    public float fluidPourRate = 0.05f;
+
+    private bool pouring = false;
 
     public void Initialize(Material material)
     {
@@ -30,10 +34,26 @@ public class ChemicalController : MonoBehaviour
         return parentRotation.eulerAngles.z > 90 && parentRotation.eulerAngles.z < 270;
     }
 
+    private void Update()
+    {
+        if (pouring)
+        {
+            if (isTilted() && fluidAmountLeft > 0)
+            {
+                mixController.AddChemical(Chemical, fluidPourRate);
+            }
+            if (fluidAmountLeft <= 0)
+            {
+                Fluid.gameObject.SetActive(false);
+            }
+        }
+    }
+
     private void FixedUpdate()
     {
-        if (isTilted() && !IsDepleted)
+        if (isTilted() && fluidAmountLeft > 0)
         {
+            fluidAmountLeft -= fluidPourRate;
             if (!Particles.gameObject.activeSelf)
             {
                 Particles.gameObject.SetActive(true);
@@ -52,11 +72,11 @@ public class ChemicalController : MonoBehaviour
         {
             return;
         }
-        if (isTilted() && !IsDepleted)
-        {
-            mixController.AddChemical(Chemical);
-            Fluid.gameObject.SetActive(false);
-            IsDepleted = true;
-        }
+        pouring = true;
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.tag == "Beaker") pouring = false;
     }
 }
