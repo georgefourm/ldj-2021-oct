@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class GameController : MonoBehaviour
 {
@@ -14,14 +15,20 @@ public class GameController : MonoBehaviour
 
     public static GameController Instance;
 
-    public ChemicalSpawner[] Spawners;
-
     public BeakerController Beaker;
+
+    private ChemicalSpawner[] Spawners;
+
+    public bool GameRunning { get; private set; }
 
     private void Start()
     {
+        Spawners = FindObjectsOfType<ChemicalSpawner>();
+
+        GameRunning = true;
         ui.bar.SetThreshold(TargetStability);
-        GetComponent<GameConfig>().GenerateConfig();
+        Color[] colors = Spawners.Select(spawner => spawner.material.color).ToArray();
+        GetComponent<GameConfig>().GenerateConfig(colors);
     }
 
     private void Awake()
@@ -34,43 +41,36 @@ public class GameController : MonoBehaviour
 
     public void CheckWin(Mix mix)
     {
-        var stability = mix.GetStability();
-        if (stability >= TargetStability && stability <= TargetStability + ErrorThreshold)
-        {
-            Win();
-        }
-        if (stability > TargetStability + ErrorThreshold)
-        {
-            Lose();
-        }
-        if (mix.Amount >= 1)
-        {
-            Lose();
-        }
+
     }
 
     public void Win()
     {
-        Beaker.GameRunning = false;
+        GameRunning = false;
         ui.ActivateGameOver("Success", "Component Stabilized");
     }
 
     public void Lose()
     {
         Beaker.Shatter();
-        Beaker.GameRunning = false;
+        GameRunning = false;
         ui.ActivateGameOver("Failure", "Component Exploded");
     }
 
     public void Restart()
     {
+        ResetBottles();
+        Beaker.Clear();
+        ui.DeactivateGameOver();
+        ui.bar.SetStability(0f);
+        GameRunning = true;
+    }
+
+    public void ResetBottles()
+    {
         foreach (var spawner in Spawners)
         {
             spawner.Respawn();
         }
-        Beaker.Clear();
-        ui.DeactivateGameOver();
-        ui.bar.SetStability(0f);
-        Beaker.GameRunning = true;
     }
 }

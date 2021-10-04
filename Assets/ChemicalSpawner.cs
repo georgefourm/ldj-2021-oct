@@ -6,7 +6,7 @@ public class ChemicalSpawner : MonoBehaviour
 {
     public GameObject ChemicalPrefab;
 
-    public ChemicalComponent component;
+    public Material material;
 
     private GameObject instance;
 
@@ -36,9 +36,8 @@ public class ChemicalSpawner : MonoBehaviour
     {
         instance = Instantiate(ChemicalPrefab);
         instance.transform.position = transform.position;
-        var controller = instance.GetComponent<BottleController>();
-        controller.chemical = component;
-        controller.FluidMesh.material = component.chemicalColor;
+        var controller = instance.GetComponentInChildren<ChemicalController>();
+        controller.Initialize(material);
     }
 
 }

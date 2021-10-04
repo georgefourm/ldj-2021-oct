@@ -6,37 +6,45 @@ public class MixController : MonoBehaviour
 {
     public Mix mix;
 
-    public float PourRate = 0.05f;
+    public float PourAmount = 0.05f;
 
     private GameConfig config;
 
-    private Color current = Color.black;
+    private BeakerController beaker;
 
     void Start()
     {
         mix = new Mix();
         config = GameController.Instance.GetComponent<GameConfig>();
+        beaker = GetComponent<BeakerController>();
     }
 
-    public void AddChemical(ChemicalComponent chemical)
+    public void AddChemical(Chemical chemical)
     {
-        if (current == Color.black) { current = chemical.chemicalColor.color; return; }
-
-        var reaction = config.getReaction(
-            current,
-            chemical.chemicalColor.color
-        );
-
-        foreach (var rule in reaction.rules)
+        if (mix.Amount == 0 || chemical.color.Equals(mix.Color))
         {
-
-            Debug.Log(rule);
-            rule.apply(mix);
+            mix.Color = chemical.color;
         }
-        Debug.Log("---");
-        mix.trueColor = current;
-        mix.Amount = Mathf.Clamp01(mix.Amount + PourRate);
-        UIController.Instance.bar.SetStability(mix.Amount);
-        current = reaction.output;
+        else
+        {
+            var reaction = config.GetReaction(mix.Color, chemical.color);
+            Debug.Log("Performing reaction: " + reaction);
+            mix.Color = reaction.Result;
+            switch (reaction.Property)
+            {
+                case ChemicalProperty.Smoke:
+                    mix.Smoke += (reaction.Increase ? 1 : -1) * reaction.Amount;
+                    break;
+                case ChemicalProperty.Wobble:
+                    mix.Wobble += (reaction.Increase ? 1 : -1) * reaction.Amount;
+                    break;
+                default:
+                    Debug.LogWarning("Invalid chemical property: " + reaction.Property);
+                    break;
+            }
+        }
+
+        mix.Amount += PourAmount;
+        beaker.UpdateProperties();
     }
 }

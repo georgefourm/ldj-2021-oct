@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1473466283}
   - component: {fileID: 1473466284}
+  - component: {fileID: 8197741591626151736}
   m_Layer: 0
   m_Name: Spout
   m_TagString: Chemical
@@ -44,6 +45,20 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.04
   m_Center: {x: 0, y: 0.29, z: 0}
+--- !u!114 &8197741591626151736
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1473466282}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cec12d51ad862ee49862133677e3191e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Fluid: {fileID: 7136273360123463265}
+  Particles: {fileID: 1349046474917496229}
 --- !u!1 &2220074877101180527
 GameObject:
   m_ObjectHideFlags: 0
@@ -139,10 +154,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rotationSpeed: 200
   movementSpeed: 2
-  pourDelay: 0.1
-  chemical: {fileID: 11400000, guid: 6efa30feced083645a783d12a83ca117, type: 2}
-  spout: {fileID: 1473466283}
-  FluidMesh: {fileID: 7136273360123463265}
 --- !u!114 &7447631471422086840
 MonoBehaviour:
   m_ObjectHideFlags: 0

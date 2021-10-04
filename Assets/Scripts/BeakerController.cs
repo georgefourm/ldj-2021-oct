@@ -8,13 +8,9 @@ public class BeakerController : MonoBehaviour
 
     public Transform Fluid;
 
-    public Gradient colorScale;
-
     public float GrowSpeed = 8;
 
     public float MaxAmount = 19f;
-
-    public bool GameRunning = true;
 
     private MeshRenderer mesh;
 
@@ -56,27 +52,19 @@ public class BeakerController : MonoBehaviour
         emission.rateOverTime = level * 5;
     }
 
-    void SetTrueColor(Color color)
+    void SetColor(Color color)
     {
         var main = smoke.main;
         main.startColor = color;
-        mesh.material.color = color;
-    }
 
-    void SetColor(float color)
-    {
-        var finalColor = colorScale.Evaluate(color);
-        var main = smoke.main;
-
-        main.startColor = finalColor;
-        mesh.material.color = finalColor; 
+        mesh.material.color = color; 
     }
 
     void SetWobble(float wobble)
     {
         var wobbleLvl = WobbleLevel.EXTREME;
-        if (wobble < 0.2) wobbleLvl = WobbleLevel.NO;
-        else if (wobble < .4) wobbleLvl = WobbleLevel.LOW;
+        if (wobble < 0.1) wobbleLvl = WobbleLevel.NO;
+        else if (wobble < .3) wobbleLvl = WobbleLevel.LOW;
         else if (wobble < .6) wobbleLvl = WobbleLevel.MED;
         else if (wobble < .8) wobbleLvl = WobbleLevel.HIGH;
         wobbleController.SetWobbleLevel(wobbleLvl);
@@ -95,28 +83,12 @@ public class BeakerController : MonoBehaviour
         targetLevel = amount * MaxAmount;
     }
 
-    private void OnTriggerStay(Collider other)
-    {
-        if (other.tag != "Chemical" || !GameRunning)
-        {
-            return;
-        }
-        var bottle = other.GetComponentInParent<BottleController>();
-        if (bottle.IsPouring())
-        {
-            mixController.AddChemical(bottle.chemical);
-            UpdateProperties();
-            GameController.Instance.CheckWin(mixController.mix);
-            bottle.SetDepleted();
-        }
-    }
-
-    private void UpdateProperties()
+    public void UpdateProperties()
     {
         SetAmount(mixController.mix.Amount);
         SetSmokiness(mixController.mix.Smoke);
-        SetTrueColor(mixController.mix.trueColor);
         SetWobble(mixController.mix.Wobble);
+        SetColor(mixController.mix.Color);
     }
 
     public void Shatter()

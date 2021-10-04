@@ -4,106 +4,77 @@ using UnityEngine;
 
 public class GameConfig : MonoBehaviour
 {
-    public Material[] materials;
 
-    public Rule[] rules;
+    public Dictionary<Color, Dictionary<Color, Reaction>> mappings { get; private set; }
 
-    public Dictionary<Color, Dictionary<Color, Reaction>> mapping { get; private set; }
-    
-    public void GenerateConfig()
+    private Reaction[] reactionPool;
+
+    private void Awake()
     {
-        GenerateRules();
-        mapping = new Dictionary<Color, Dictionary<Color, Reaction>>();
-
-        var i = 0;
-        Shuffle(rules);
-
-        foreach (var material in materials)
+        var reactionPool = new List<Reaction>();
+        for (float i = .1f; i <= .3f; i += .1f)
         {
-            var color = material.color;
-            var colorDict = new Dictionary<Color, Reaction>();
-            mapping.Add(color, colorDict);
-            foreach (var otherMaterial in materials)
+            reactionPool.Add(new Reaction(ChemicalProperty.Smoke, i, false));
+            reactionPool.Add(new Reaction(ChemicalProperty.Smoke, i, true));
+            reactionPool.Add(new Reaction(ChemicalProperty.Wobble, i, false));
+            reactionPool.Add(new Reaction(ChemicalProperty.Wobble, i, true));
+        }
+        this.reactionPool = reactionPool.ToArray();
+    }
+
+    public void GenerateConfig(Color[] colors)
+    {
+        mappings = new Dictionary<Color, Dictionary<Color, Reaction>>();
+        Color[] resultColorPool = Shuffle(colors);
+
+        int i = 0;
+        foreach (var color in colors)
+        {
+            var innerDict = new Dictionary<Color, Reaction>();
+            mappings.Add(color, innerDict);
+
+            int j = 0;
+            foreach (var otherColor in colors)
             {
+                if (color.Equals(otherColor))
+                {
+                    // Skip Same color reactions
+                    continue;
+                }
+
+                var resultColor = resultColorPool[j];
+                if (resultColor.Equals(color))
+                {
+                    // Skip results that are the same as the color of the mix
+                    j++;
+                    resultColor = resultColorPool[j];
+                }
+                var resultReaction = reactionPool[i % reactionPool.Length];
+                innerDict.Add(otherColor, new Reaction(resultReaction, resultColor));
+
                 i++;
-                colorDict.Add(otherMaterial.color, new Reaction(
-                    new Color[] { color, otherMaterial.color },
-                    GetRandomColor(),
-                    new Rule[] { rules[i%rules.Length] }    
-                ));
+                j++;
             }
         }
     }
 
-    void Shuffle<T>(T[] a)
+    private Color[] Shuffle(Color[] colors)
     {
-        // Loops through array
-        for (var i = a.Length - 1; i > 0; i--)
+        Color[] result = new Color[colors.Length];
+        colors.CopyTo(result,0);
+        for (int i = colors.Length - 1; i > 0; i--)
         {
-            // Randomize a number between 0 and i (so that the range decreases each time)
-            int rnd = Random.Range(0, i);
-
-            // Save the value of the current i, otherwise it'll overright when we swap the values
-            var temp = a[i];
-
-            // Swap the new and old values
-            a[i] = a[rnd];
-            a[rnd] = temp;
+            int j = Random.Range(i,colors.Length);
+            var temp = result[i];
+            result[i] = result[j];
+            result[j] = temp;
         }
-
-        // Print
-        for (int i = 0; i < a.Length; i++)
-        {
-            Debug.Log(a[i]);
-        }
+        return result;
     }
 
-    ModifyRule GenerateRandomRule()
+    public Reaction GetReaction(Color a, Color b)
     {
-        var amounts = new float[] { 0, 0.2f, 0.3f, 0.4f };
-        
-
-        var rule = new ModifyRule();
-        rule.Amount = amounts[Random.Range(0, 4)];
-        rule.AffectedProperty = (ChemicalProperty) Random.Range(1, 3);
-        rule.Remove = Random.Range(0, 1) > 0.5;
-        return rule;
-    }
-
-    void GenerateRules()
-    {
-        var ruleList = new List<Rule>();
-        var amounts = new float[] { 0.2f, 0.3f, 0.4f };
-        foreach (var amount in amounts)
-        {
-            
-            for (var j = 1; j <= 2; j++)
-            {
-                ruleList.Add(GenerateRule(amount, j, true));
-                ruleList.Add(GenerateRule(amount, j, false));
-            }
-        }
-
-        rules = ruleList.ToArray();
-    }
-
-    Rule GenerateRule(float amount, int prop, bool remove)
-    {
-        var rule = new ModifyRule();
-        rule.Amount = amount;
-        rule.AffectedProperty = (ChemicalProperty) prop;
-        rule.Remove = remove;
-        return rule;
-    }
-
-    Color GetRandomColor()
-    {
-        return materials[Random.Range(0, materials.Length)].color;
-    }
-
-    public Reaction getReaction(Color a, Color b)
-    {
-        return mapping[a][b];
+        return mappings[a][b];
     }
 }
 

@@ -8,34 +8,17 @@ public class BottleController : MonoBehaviour
 
     public float movementSpeed = 10f;
 
-    public float pourDelay = 3f;
-
-    public ChemicalComponent chemical;
-
-    public Transform spout;
-
     Vector3 screenSpace;
 
     bool dragging = false;
-
-    private float pourTimer = 0f;
 
     private Rigidbody rb;
 
     private Vector3 prevMousePosition;
 
-    public MeshRenderer FluidMesh;
-
-    private ParticleSystem ps;
-
-    public bool IsDepleted = false;
-
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
-        ps = GetComponentInChildren<ParticleSystem>();
-        var main = ps.main;
-        main.startColor = FluidMesh.material.color;
     }
 
     private void Update()
@@ -66,18 +49,6 @@ public class BottleController : MonoBehaviour
             rb.angularVelocity = Vector3.zero;
             rb.velocity = Vector3.zero;
         }
-        
-        if (isTilted())
-        {
-            if (!ps.gameObject.activeSelf)
-            {
-                ps.gameObject.SetActive(true);
-                ps.Play();
-            }
-        } else
-        {
-            ps.gameObject.SetActive(false);
-        }
     }
 
     private void OnMouseDown()
@@ -100,29 +71,5 @@ public class BottleController : MonoBehaviour
 
         var curScreenSpace = transform.position;
         rb.AddForce((curScreenSpace - prevMousePosition).normalized * 20);
-    }
-
-    public bool IsPouring()
-    {
-        if (IsDepleted) return false;
-        pourTimer += Time.deltaTime;
-        if (pourTimer >= pourDelay && isTilted())
-        {
-            pourTimer = 0;
-            return true;
-        }
-        return false;
-    }
-
-    private bool isTilted()
-    {
-        return transform.rotation.eulerAngles.z > 90 && transform.rotation.eulerAngles.z < 270;
-    }
-
-    public void SetDepleted()
-    {
-        IsDepleted = true;
-        FluidMesh.gameObject.SetActive(false);
-        ps.Stop();
     }
 }

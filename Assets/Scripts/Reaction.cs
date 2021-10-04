@@ -4,14 +4,31 @@ using UnityEngine;
 
 public class Reaction
 {
-    public Color[] input { get; private set; }
-    public Color output { get; private set; }
-    public Rule[] rules { get;  private set; }
+    public Color Result;
 
-    public Reaction(Color[] input, Color output, Rule[] rules)
+    public ChemicalProperty Property;
+
+    public float Amount;
+
+    public bool Increase = true;
+
+    public Reaction(ChemicalProperty property, float amount, bool increase)
     {
-        this.input = input;
-        this.output = output;
-        this.rules = rules;
+        Property = property;
+        Amount = amount;
+        Increase = increase;
+    }
+
+    public Reaction(Reaction other, Color Result)
+    {
+        this.Result = Result;
+        Property = other.Property;
+        Amount = other.Amount;
+        Increase = other.Increase;
+    }
+
+    public override string ToString()
+    {
+        return string.Format("{0} {1} by {2}",Increase? "Increase":"Decrease",Property.ToString(),Amount);
     }
 }
