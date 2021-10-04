@@ -8,7 +8,7 @@ public class BottleController : MonoBehaviour
 
     public float movementSpeed = 10f;
 
-    public float pourDelay = 0.5f;
+    public float pourDelay = 3f;
 
     public ChemicalComponent chemical;
 
@@ -27,6 +27,8 @@ public class BottleController : MonoBehaviour
     public MeshRenderer FluidMesh;
 
     private ParticleSystem ps;
+
+    public bool IsDepleted = false;
 
     private void Start()
     {
@@ -102,6 +104,7 @@ public class BottleController : MonoBehaviour
 
     public bool IsPouring()
     {
+        if (IsDepleted) return false;
         pourTimer += Time.deltaTime;
         if (pourTimer >= pourDelay && isTilted())
         {
@@ -114,5 +117,12 @@ public class BottleController : MonoBehaviour
     private bool isTilted()
     {
         return transform.rotation.eulerAngles.z > 90 && transform.rotation.eulerAngles.z < 270;
+    }
+
+    public void SetDepleted()
+    {
+        IsDepleted = true;
+        FluidMesh.gameObject.SetActive(false);
+        ps.Stop();
     }
 }

@@ -14,6 +14,8 @@ public class Mix
 
     public float Wobble { get; private set; }
 
+    public Color trueColor { get; set; }
+
 
     public float GetStability()
     {

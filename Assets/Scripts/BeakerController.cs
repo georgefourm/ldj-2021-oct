@@ -56,6 +56,13 @@ public class BeakerController : MonoBehaviour
         emission.rateOverTime = level * 5;
     }
 
+    void SetTrueColor(Color color)
+    {
+        var main = smoke.main;
+        main.startColor = color;
+        mesh.material.color = color;
+    }
+
     void SetColor(float color)
     {
         var finalColor = colorScale.Evaluate(color);
@@ -100,6 +107,7 @@ public class BeakerController : MonoBehaviour
             mixController.AddChemical(bottle.chemical);
             UpdateProperties();
             GameController.Instance.CheckWin(mixController.mix);
+            bottle.SetDepleted();
         }
     }
 
@@ -107,7 +115,7 @@ public class BeakerController : MonoBehaviour
     {
         SetAmount(mixController.mix.Amount);
         SetSmokiness(mixController.mix.Smoke);
-        SetColor(mixController.mix.Color);
+        SetTrueColor(mixController.mix.trueColor);
         SetWobble(mixController.mix.Wobble);
     }
 

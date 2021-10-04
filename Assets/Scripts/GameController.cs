@@ -21,6 +21,7 @@ public class GameController : MonoBehaviour
     private void Start()
     {
         ui.bar.SetThreshold(TargetStability);
+        GetComponent<GameConfig>().GenerateConfig();
     }
 
     private void Awake()
