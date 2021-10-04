@@ -68,10 +68,13 @@ public class GameController : MonoBehaviour
 
     public void Restart()
     {
+        Score = 0;
+        ui.bar.SetStability(0f);
+        ui.DeactivateGameOver();
+
         ResetBottles();
         Beaker.Clear();
-        ui.DeactivateGameOver();
-        ui.bar.SetStability(0f);
+
         GameRunning = true;
     }
 

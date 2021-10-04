@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class GameConfig : MonoBehaviour
 {
-
-    public Dictionary<Color, Dictionary<Color, Reaction>> mappings { get; private set; }
+    public float ReactionModifier = 1;
+    private Dictionary<Color, Dictionary<Color, Reaction>> mappings { get; set; }
 
     private Reaction[] reactionPool;
 
@@ -14,10 +14,11 @@ public class GameConfig : MonoBehaviour
         var reactionPool = new List<Reaction>();
         for (float i = .1f; i <= .3f; i += .1f)
         {
-            reactionPool.Add(new Reaction(ChemicalProperty.Smoke, i, false));
-            reactionPool.Add(new Reaction(ChemicalProperty.Smoke, i, true));
-            reactionPool.Add(new Reaction(ChemicalProperty.Wobble, i, false));
-            reactionPool.Add(new Reaction(ChemicalProperty.Wobble, i, true));
+            float amount = i * ReactionModifier;
+            reactionPool.Add(new Reaction(ChemicalProperty.Smoke, amount, true));
+            reactionPool.Add(new Reaction(ChemicalProperty.Smoke, amount, false));
+            reactionPool.Add(new Reaction(ChemicalProperty.Wobble, amount, true));
+            reactionPool.Add(new Reaction(ChemicalProperty.Wobble, amount, false));
         }
         this.reactionPool = reactionPool.ToArray();
     }

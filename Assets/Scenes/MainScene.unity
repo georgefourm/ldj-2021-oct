@@ -1096,6 +1096,7 @@ MonoBehaviour:
   ErrorThreshold: 0.102
   ui: {fileID: 1868739253}
   Beaker: {fileID: 1776139650}
+  ScoreStep: 0.1
 --- !u!114 &745867708
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1108,6 +1109,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a2140cc5395a434183e54bbbcd847ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ReactionModifier: 2
 --- !u!1 &810738944
 GameObject:
   m_ObjectHideFlags: 0
