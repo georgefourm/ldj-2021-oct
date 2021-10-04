@@ -72,7 +72,7 @@ public class BeakerController : MonoBehaviour
 
     public void Clear()
     {
-        mixController.mix = new Mix();
+        mixController.Clear();
         shatterController.Unshatter();
         ResetFluid();
         UpdateProperties();

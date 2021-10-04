@@ -14,6 +14,8 @@ public class ChemicalController : MonoBehaviour
 
     public bool IsDepleted { get; private set; }
 
+    private bool isPouring = false;
+
     public void Initialize(Material material)
     {
         mixController = FindObjectOfType<MixController>();
@@ -46,17 +48,27 @@ public class ChemicalController : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        if (isPouring)
+        {
+            mixController.AddChemical(Chemical);
+        }
+    }
+
     private void OnTriggerStay(Collider other)
     {
         if (other.tag != "Beaker" || !GameController.Instance.GameRunning)
         {
             return;
         }
-        if (isTilted() && !IsDepleted)
+        if (isTilted())
         {
-            mixController.AddChemical(Chemical);
-            Fluid.gameObject.SetActive(false);
-            IsDepleted = true;
+            isPouring = true;
+        }
+        else
+        {
+            isPouring = false;
         }
     }
 }
