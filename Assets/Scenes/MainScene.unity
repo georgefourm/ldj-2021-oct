@@ -515,18 +515,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 291601464186390668, guid: f0ca66d99c7e6394e8e7759cc6ebaa42, type: 3}
-      propertyPath: m_TagString
-      value: Beaker
-      objectReference: {fileID: 0}
-    - target: {fileID: 919132148432884144, guid: f0ca66d99c7e6394e8e7759cc6ebaa42, type: 3}
-      propertyPath: m_TagString
-      value: Beaker
-      objectReference: {fileID: 0}
-    - target: {fileID: 919132149410494570, guid: f0ca66d99c7e6394e8e7759cc6ebaa42, type: 3}
-      propertyPath: m_TagString
-      value: Beaker
-      objectReference: {fileID: 0}
     - target: {fileID: 4502745420836850814, guid: f0ca66d99c7e6394e8e7759cc6ebaa42, type: 3}
       propertyPath: m_RootOrder
       value: 4
@@ -574,10 +562,6 @@ PrefabInstance:
     - target: {fileID: 4502745420836850815, guid: f0ca66d99c7e6394e8e7759cc6ebaa42, type: 3}
       propertyPath: m_Name
       value: Mix
-      objectReference: {fileID: 0}
-    - target: {fileID: 4502745420836850815, guid: f0ca66d99c7e6394e8e7759cc6ebaa42, type: 3}
-      propertyPath: m_TagString
-      value: Beaker
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f0ca66d99c7e6394e8e7759cc6ebaa42, type: 3}

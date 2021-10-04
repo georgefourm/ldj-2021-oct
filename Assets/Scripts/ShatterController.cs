@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class ShatterController : MonoBehaviour
 {
-    public Transform whole, shattered;
+    public Transform whole;
 
-    private bool shouldShatter = false;
+    public GameObject shatteredPrefab;
 
-    private float shatteredAt = 0;
-
-    public float despawnAfter = 8;
+    public float despawnAfter = 5.0f;
 
     public float shatterThreshold = 1f;
+
+    private bool shattered = false;
 
     private Rigidbody rb;
 
@@ -25,32 +25,27 @@ public class ShatterController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (shatteredAt == 0) return;
-        if (Time.time - shatteredAt >= despawnAfter)
-            Destroy(transform.gameObject);
-    }
 
-    private void OnMouseUp()
-    {
-        shouldShatter = true;
     }
 
     public void OnCollisionEnter(Collision collision)
     {
-        if (!shouldShatter || rb.velocity.magnitude < shatterThreshold) return;
-        Shatter();
+        if (rb != null && rb.velocity.magnitude > shatterThreshold && !shattered)
+        {
+            Shatter();
+            shattered = true;
+        }
     }
 
     public void Shatter(bool delete = true)
     {
         whole.gameObject.SetActive(false);
-        shattered.gameObject.SetActive(true);
-        if (delete) shatteredAt = Time.time;
+        Instantiate(shatteredPrefab, whole.gameObject.transform.position, whole.gameObject.transform.rotation);
+        if (delete) Destroy(transform.gameObject, despawnAfter);
     }
 
     public void Unshatter()
     {
         whole.gameObject.SetActive(true);
-        shattered.gameObject.SetActive(false);
     }
 }

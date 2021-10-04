@@ -79,8 +79,7 @@ public class BeakerController : MonoBehaviour
     {
         mixController.mix = new Mix();
         shatterController.Unshatter();
-        Fluid.localScale += Vector3.forward * (0.1f - Fluid.localScale.z);
-        targetLevel = 0.1f;
+        ResetFluid();
         UpdateProperties();
     }
 
@@ -114,6 +113,13 @@ public class BeakerController : MonoBehaviour
 
     public void Shatter()
     {
+        ResetFluid();
         shatterController.Shatter(false);
+    }
+
+    private void ResetFluid()
+    {
+        Fluid.localScale += Vector3.forward * (0.1f - Fluid.localScale.z);
+        targetLevel = 0.1f;
     }
 }
