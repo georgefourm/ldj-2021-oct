@@ -46,7 +46,7 @@ public class MixController : MonoBehaviour
                     break;
             }
 
-            changeColorTimeLeft -= fluidPourRate;
+            changeColorTimeLeft -= fluidPourRate * 300;
             if (changeColorTimeLeft < 0)
             {
                 mix.Color = reaction.Result;

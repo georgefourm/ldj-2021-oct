@@ -48,7 +48,7 @@ public class ChemicalController : MonoBehaviour
                 if (fluidTimeLeft < pourAfter)
                 {
                     pourAfter -= fluidPourRate;
-                    mixController.AddChemical(Chemical, fluidPourRate / 10);
+                    mixController.AddChemical(Chemical, fluidPourRate / 50);
                 }
             }
             if (fluidTimeLeft <= 0)
