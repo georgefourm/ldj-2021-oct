@@ -56,14 +56,14 @@ public class GameController : MonoBehaviour
     public void Win()
     {
         GameRunning = false;
-        ui.ActivateGameOver("Success", "Component Stabilized");
+        ui.ActivateGameOver(true, "Your potion is now ready and stabilized");
     }
 
     public void Lose()
     {
         Beaker.Shatter();
         GameRunning = false;
-        ui.ActivateGameOver("Failure", "Component Exploded");
+        ui.ActivateGameOver(false, "Your potion got too unstable and blew up");
     }
 
     public void Restart()

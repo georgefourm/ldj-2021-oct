@@ -26,9 +26,16 @@ public class UIController : MonoBehaviour
         bar.SetStability(0.0f);
     }
 
-    public void ActivateGameOver(string text,string messageText)
+    public void ActivateGameOver(bool won, string messageText)
     {
-        mainText.text = text;
+        if (won)
+        {
+            mainText.text = "Success!";
+        } else
+        {
+            mainText.text = "Whoops!";
+        }
+        
         message.text = messageText;
         GameOverPanel.SetActive(true);
     }
