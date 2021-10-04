@@ -85,4 +85,9 @@ public class GameController : MonoBehaviour
             spawner.Respawn();
         }
     }
+
+    public void Quit()
+    {
+        Application.Quit();
+    }
 }
