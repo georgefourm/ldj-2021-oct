@@ -8,36 +8,53 @@ public class BottleController : MonoBehaviour
 
     public float movementSpeed = 10f;
 
+    public float resetTimer = 2.0f;
+
     Vector3 screenSpace;
 
-    bool dragging = false;
+    private bool dragging = false;
+
+    private bool reset = false;
+
+    private float resetTimeRemaining;
 
     private Rigidbody rb;
+
+    private float originalPositionX;
+
+    private float originalPositionZ;
 
     private Vector3 prevMousePosition;
 
     private void Start()
     {
+        resetTimeRemaining = resetTimer;
+        originalPositionX = transform.position.x;
+        originalPositionZ = transform.position.z;
         rb = GetComponent<Rigidbody>();
     }
 
     private void Update()
     {
-        if (!dragging)
+        if (dragging)
         {
-            return;
+            if (Input.GetKey(KeyCode.A))
+                transform.Rotate(Vector3.forward * rotationSpeed * Time.deltaTime);
+
+            if (Input.GetKey(KeyCode.D))
+                transform.Rotate(-Vector3.forward * rotationSpeed * Time.deltaTime);
+
+            if (Input.GetKey(KeyCode.W))
+                transform.Translate(Vector3.forward * movementSpeed * Time.deltaTime);
+
+            if (Input.GetKey(KeyCode.S))
+                transform.Translate(-Vector3.forward * movementSpeed * Time.deltaTime);
+        } else
+        {
+            if (!reset && (transform.position.x != originalPositionX || transform.position.z != originalPositionZ)) reset = true;
+            if (reset) resetTimeRemaining -= Time.deltaTime;
+            if (resetTimeRemaining < 0) Destroy(gameObject);
         }
-        if (Input.GetKey(KeyCode.A))
-            transform.Rotate(Vector3.forward * rotationSpeed * Time.deltaTime);
-
-        if (Input.GetKey(KeyCode.D))
-            transform.Rotate(-Vector3.forward * rotationSpeed * Time.deltaTime);
-
-        if (Input.GetKey(KeyCode.W))
-            transform.Translate(Vector3.forward * movementSpeed * Time.deltaTime);
-
-        if (Input.GetKey(KeyCode.S))
-            transform.Translate(-Vector3.forward * movementSpeed * Time.deltaTime);
     }
 
     private void FixedUpdate()
@@ -54,7 +71,7 @@ public class BottleController : MonoBehaviour
     private void OnMouseDown()
     {
         dragging = true;
-
+        CancelReset();
         screenSpace = Camera.main.WorldToScreenPoint(transform.position);
     }
 
@@ -68,8 +85,15 @@ public class BottleController : MonoBehaviour
     private void OnMouseUp()
     {
         dragging = false;
+        reset = true;
 
         var curScreenSpace = transform.position;
         rb.AddForce((curScreenSpace - prevMousePosition).normalized * 20);
+    }
+
+    private void CancelReset()
+    {
+        resetTimeRemaining = resetTimer;
+        reset = false;
     }
 }
