@@ -49,21 +49,21 @@ public class GameController : MonoBehaviour
         ui.bar.SetStability(Score);
         if (Score >= 1)
         {
-            Win();
+            Lose();
         }
     }
 
     public void Win()
     {
         GameRunning = false;
-        ui.ActivateGameOver("Success", "Component Stabilized");
+        Beaker.Shatter();
+        ui.ActivateGameOver("Nice", "You made it go 'Boom'");
     }
 
     public void Lose()
     {
-        Beaker.Shatter();
         GameRunning = false;
-        ui.ActivateGameOver("Failure", "Component Exploded");
+        ui.ActivateGameOver("Meh", "Too many attempts");
     }
 
     public void Restart()

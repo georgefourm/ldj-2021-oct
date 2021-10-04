@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.4373381, g: 0.48511744, b: 0.5653905, a: 1}
+  m_IndirectSpecularColor: {r: 0.4373379, g: 0.48511696, b: 0.56539, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -508,6 +508,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2544291666961466189, guid: f0ca66d99c7e6394e8e7759cc6ebaa42, type: 3}
+      propertyPath: PourAmount
+      value: 0.1
+      objectReference: {fileID: 0}
     - target: {fileID: 4502745420836850814, guid: f0ca66d99c7e6394e8e7759cc6ebaa42, type: 3}
       propertyPath: m_RootOrder
       value: 5
@@ -1096,7 +1100,7 @@ MonoBehaviour:
   ErrorThreshold: 0.102
   ui: {fileID: 1868739253}
   Beaker: {fileID: 1776139650}
-  ScoreStep: 0.1
+  ScoreStep: 0.084
 --- !u!114 &745867708
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1109,7 +1113,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a2140cc5395a434183e54bbbcd847ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ReactionModifier: 2
+  ReactionModifier: 1
 --- !u!1 &810738944
 GameObject:
   m_ObjectHideFlags: 0

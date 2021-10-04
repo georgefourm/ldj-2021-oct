@@ -53,7 +53,7 @@ public class MixController : MonoBehaviour
         }
         else
         {
-            GameController.Instance.Lose();
+            GameController.Instance.Win();
         }
     }
 }
