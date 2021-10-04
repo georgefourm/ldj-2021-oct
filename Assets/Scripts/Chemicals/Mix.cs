@@ -14,4 +14,9 @@ public class Mix
 
     public float Wobble { get; set; }
 
+    public bool IsStable()
+    {
+        return Wobble < 1 && Smoke < 1 && Amount < 1;
+    }
+
 }

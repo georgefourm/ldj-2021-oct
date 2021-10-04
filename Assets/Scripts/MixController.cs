@@ -46,5 +46,14 @@ public class MixController : MonoBehaviour
 
         mix.Amount += PourAmount;
         beaker.UpdateProperties();
+
+        if (mix.IsStable())
+        {
+            GameController.Instance.IncreaseScore();
+        }
+        else
+        {
+            GameController.Instance.Lose();
+        }
     }
 }

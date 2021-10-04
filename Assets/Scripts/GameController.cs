@@ -5,10 +5,10 @@ using System.Linq;
 
 public class GameController : MonoBehaviour
 {
-    [Range(0,1)]
+    [Range(0, 1)]
     public float TargetStability = 0.7f;
 
-    [Range(0,1)]
+    [Range(0, 1)]
     public float ErrorThreshold = 0.1f;
 
     public UIController ui;
@@ -21,12 +21,16 @@ public class GameController : MonoBehaviour
 
     public bool GameRunning { get; private set; }
 
+    public float Score { get; private set; }
+
+    [Range(0,0.5f)]
+    public float ScoreStep = 0.1f;
+
     private void Start()
     {
         Spawners = FindObjectsOfType<ChemicalSpawner>();
 
         GameRunning = true;
-        ui.bar.SetThreshold(TargetStability);
         Color[] colors = Spawners.Select(spawner => spawner.material.color).ToArray();
         GetComponent<GameConfig>().GenerateConfig(colors);
     }
@@ -39,9 +43,14 @@ public class GameController : MonoBehaviour
         }
     }
 
-    public void CheckWin(Mix mix)
+    public void IncreaseScore()
     {
-
+        Score = Mathf.Clamp01(Score+ScoreStep);
+        ui.bar.SetStability(Score);
+        if (Score >= 1)
+        {
+            Win();
+        }
     }
 
     public void Win()
