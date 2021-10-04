@@ -6,13 +6,15 @@ using UnityEngine;
 [Serializable]
 public class Mix
 {
-    public float Amount { get; set; }
+    private float amount, smoke, wobble;
+
+    public float Amount { get { return amount; } set { amount = Mathf.Clamp01(value); } }
 
     public Color Color { get; set; }
 
-    public float Smoke { get; set; }
+    public float Smoke { get { return smoke; } set { smoke = Mathf.Clamp01(value); } }
 
-    public float Wobble { get; set; }
+    public float Wobble { get { return wobble; } set { wobble = Mathf.Clamp01(value); } }
 
     public bool IsStable()
     {
